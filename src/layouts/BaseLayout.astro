@@ -1,0 +1,157 @@
+---
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{title} | 夏老板哇</title>
+  <!-- Google Fonts 衬线字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gentium+Book+Basic:ital@0;1&family=Vollkorn:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style is:global>
+    :root {
+      --bg-warm: #f5f0e8;
+      --accent-red: #b84a3c;
+      --text-dark: #2c2620;
+      --text-muted: #63584e;
+      --max-page-width: 1080px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-warm);
+      color: var(--text-dark);
+      font-family: 'Gentium Book Basic', serif;
+      font-size: 1.125rem;
+      line-height: 1.75;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+      font-family: 'Vollkorn', serif;
+      font-weight: 600;
+    }
+
+    a {
+      color: var(--accent-red);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* 导航栏 毛玻璃 + 滚动阴影 */
+    nav.header-nav {
+      position: sticky;
+      top:0;
+      width:100%;
+      backdrop-filter: blur(12px);
+      background-color: rgba(245,240,232,0.75);
+      z-index: 99;
+      transition: box-shadow 0.3s ease;
+    }
+    nav.header-nav.scrolled {
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .nav-inner {
+      max-width: var(--max-page-width);
+      margin: 0 auto;
+      padding: 1rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-family: 'Vollkorn', serif;
+      font-size:1.4rem;
+      font-weight:700;
+      color: var(--accent-red);
+    }
+    .nav-logo:hover {
+      text-decoration:none;
+    }
+
+    .nav-links {
+      display:flex;
+      gap:2rem;
+    }
+    .nav-links a {
+      color: var(--text-dark);
+    }
+    .nav-links a.active {
+      color: var(--accent-red);
+    }
+
+    main.container {
+      max-width: var(--max-page-width);
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+
+    footer {
+      max-width: var(--max-page-width);
+      margin:0 auto;
+      padding:2rem 1.25rem;
+      border-top: 1px solid #e2d9cd;
+      color: var(--text-muted);
+      font-size:0.95rem;
+    }
+
+    /* 移动端适配 */
+    @media(max-width:640px){
+      .nav-links {
+        gap:1rem;
+      }
+      body {
+        font-size:1.02rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="header-nav" id="navbar">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">夏老板哇</a>
+      <div class="nav-links">
+        <a href="/" class={Astro.url.pathname === '/' ? 'active' : ''}>首页</a>
+        <a href="/about" class={Astro.url.pathname === '/about/' ? 'active' : ''}>关于</a>
+        <a href="/blog" class={Astro.url.pathname.startsWith('/blog') ? 'active' : ''}>博客</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <slot />
+  </main>
+
+  <footer>
+    © 2026 夏老板哇 · 基于Astro构建
+  </footer>
+
+  <script>
+    // 滚动监听，导航栏增加阴影
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', ()=>{
+      if(window.scrollY > 10){
+        nav.classList.add('scrolled');
+      }else{
+        nav.classList.remove('scrolled');
+      }
+    })
+  </script>
+</body>
+</html>

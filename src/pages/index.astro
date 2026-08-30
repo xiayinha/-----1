@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+// 获取博客文章，取最新3篇
+const blogPosts = await getCollection('blog');
+const sortedPosts = blogPosts.sort((a,b)=> new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()).slice(0,3);
+---
+
+<BaseLayout title="首页">
+  <section style="margin-bottom:4rem;">
+    <h1 style="font-size:2.6rem;margin-bottom:1rem;color:var(--accent-red)">夏老板哇</h1>
+    <p style="font-size:1.3rem;margin-bottom:1.5rem;color:var(--text-muted)">不会写代码的互联网科技人，在广电行业摸爬滚打十几年</p>
+    <p style="max-width:720px;">成都广电 5G 优化工程师，善于无线网络分析。日常研究通信网络、5G运维、网络安全，记录工作思考与技术随笔。</p>
+  </section>
+
+  <section>
+    <h2 style="font-size:1.8rem;margin-bottom:1.5rem;border-bottom:1px solid #ddcdbc;padding-bottom:0.5rem;">最新文章</h2>
+    <div style="display:grid;gap:1.75rem;">
+      {sortedPosts.map(post=> (
+        <article style="padding-bottom:1.25rem;border-bottom:1px solid #e9dfd2;">
+          <h3 style="margin-bottom:0.4rem;font-size:1.4rem;">
+            <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          </h3>
+          <div style="font-size:0.95rem;color:var(--text-muted);margin-bottom:0.5rem;">{post.data.pubDate.toLocaleDateString()}</div>
+          <p>{post.data.description}</p>
+        </article>
+      ))}
+    </div>
+    <div style="margin-top:1.8rem;">
+      <a href="/blog">查看全部文章 →</a>
+    </div>
+  </section>
+</BaseLayout>
