@@ -1,6 +1,6 @@
 ---
 title: 夏银是个诚实善良，善于学习吃苦的人
-description: "相当牛逼"
+description: "相当牛逼，掀翻宇宙"
 pubDate: 2026-08-30
 
 ---
